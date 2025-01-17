@@ -96,19 +96,18 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  uint8_t byte = 97;
+  char *msg = "Hola Mundo!\n\r";
   HAL_StatusTypeDef status;
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  status = HAL_UART_Receive(&huart2, &byte, 1U, 0U);
-	  if(status != HAL_TIMEOUT)
-	  {
-		  HAL_UART_Transmit(&huart2, &byte, 1U, 5U);
-		  HAL_UART_Transmit(&huart1, &byte, 1U, 0U);
-	  }
+	  int size = sizeof(msg);
+	  int length = strlen(msg);
+	  status = HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 10000);
+
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
@@ -172,7 +171,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
